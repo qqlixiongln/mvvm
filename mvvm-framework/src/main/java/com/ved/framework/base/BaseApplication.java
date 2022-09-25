@@ -3,7 +3,6 @@ package com.ved.framework.base;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.view.View;
 
 import com.ved.framework.utils.Utils;
 import com.ved.framework.utils.album.GlideAlbumLoader;
