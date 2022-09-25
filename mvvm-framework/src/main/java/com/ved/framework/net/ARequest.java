@@ -47,7 +47,7 @@ public abstract class ARequest<T, K> {
     }
 
     @SuppressLint("CheckResult")
-    public void request2(@Nullable Activity activity, @Nullable BaseViewModel viewModel, @Nullable Class<? extends T> service, @Nullable IMethod<T, K> method, @Nullable IResponse<K> iResponse) {
+    public void request(@Nullable Activity activity, @Nullable Class<? extends T> service, @Nullable IMethod<T, K> method, @Nullable IResponse<K> iResponse) {
         if (NetUtil.getNetWorkStart(activity) == 1){
             iResponse.onError("网络异常");
             exceptionHandling(activity,"网络异常",-1);

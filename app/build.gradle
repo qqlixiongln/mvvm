@@ -48,6 +48,7 @@ dependencies {
 //    implementation(name:'mvvm-framework-1.0', ext:'aar')
 //    implementation 'com.github.SmithSpring:mvvm-framework-android:11.17.473'
 //    implementation 'com.github.SmithSpring:mvvm-framework-android:11.18.12-SNAPSHOT'
+//    implementation 'com.github.lebenv:m:1.0.2'
     testImplementation 'junit:junit:4.13'
     implementation "org.jetbrains.anko:anko-commons:0.10.8"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
