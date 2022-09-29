@@ -23,7 +23,6 @@ import androidx.annotation.StringRes;
 
 /**
  * 吐司工具类
- * 不要使用com.blankj.utilcode.util.ToastUtils（在9.0以上存在BUG）
  */
 public final class ToastUtils {
 
@@ -36,7 +35,7 @@ public final class ToastUtils {
     private static int bgResource      = -1;
     private static int messageColor    = DEFAULT_COLOR;
     private static WeakReference<View> sViewWeakReference;
-    private static Handler sHandler = new Handler(Looper.getMainLooper());
+    private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
     private ToastUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");

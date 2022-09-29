@@ -23,8 +23,8 @@ public final class SPUtils {
 
     private final String SECRET_KEY = BuildConfig.ENCRYPT_KEY;
 
-    private static Map<String, SPUtils> sSPMap = new HashMap<>();
-    private SharedPreferences sp;
+    private static final Map<String, SPUtils> sSPMap = new HashMap<>();
+    private final SharedPreferences sp;
 
 
     public static SPUtils getInstance() {

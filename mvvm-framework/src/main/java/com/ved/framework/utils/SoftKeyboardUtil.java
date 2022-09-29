@@ -32,4 +32,24 @@ public class SoftKeyboardUtil {
             inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+    /**
+     * 判断输入法是否打开
+     * @param activity 当前Activity
+     * @return true 打开
+     */
+    public static boolean isOpenInputMethod(Activity activity){
+        InputMethodManager imm =(InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        return imm.isActive();
+    }
+
+    /**
+     * 显示软键盘
+     *
+     * @param activity 当前Activity
+     */
+    public static void showInputMethod(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }

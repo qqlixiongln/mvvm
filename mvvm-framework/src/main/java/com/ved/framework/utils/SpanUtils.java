@@ -1224,6 +1224,7 @@ public final class SpanUtils {
             apply(paint, newType);
         }
 
+        @SuppressLint("WrongConstant")
         private void apply(final Paint paint, final Typeface tf) {
             int oldStyle;
             Typeface old = paint.getTypeface();
