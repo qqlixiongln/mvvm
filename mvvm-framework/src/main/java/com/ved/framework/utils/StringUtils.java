@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -345,7 +346,7 @@ public final class StringUtils {
         if (s.startsWith("0")){
             s = s.substring(1);
         }
-        return com.ved.framework.utils.StringUtils.parseInt(s);
+        return StringUtils.parseInt(s);
     }
 
     public static String split(String s){
@@ -359,19 +360,6 @@ public final class StringUtils {
             }
         }
         return s;
-    }
-
-    public static String getImagePath(String imagePath){
-        if (!TextUtils.isEmpty(imagePath)){
-            imagePath = spaceInt(imagePath);
-            if (imagePath.startsWith("http")){
-                return imagePath;
-            }else {
-                return Configure.getImageHeardUrl()+imagePath;
-            }
-        }else {
-            return imagePath;
-        }
     }
 
     public static String toBigDecimal(String s){
@@ -392,25 +380,39 @@ public final class StringUtils {
         return s;
     }
 
-    public static boolean isInstall(String packageName){
-        final PackageManager packageManager = com.ved.framework.utils.Utils.getContext().getPackageManager();// 获取packagemanager
-
-        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
-
-        if (pinfo != null) {
-            for (int i = 0; i < pinfo.size(); i++) {
-                String pn = pinfo.get(i).packageName;
-
-                if (pn.equalsIgnoreCase(packageName)) {
-                    return true;
-
-                }
-
+    public static String subPhone(String phone){
+        if (isSpace(phone)){
+            return "";
+        }else {
+            if (phone.length() > 4){
+                return phone.substring(phone.length()-4);
+            }else {
+                return phone;
             }
-
         }
-
-        return false;
-
     }
+
+    public static String phoneNumber(String phone){
+        if (isSpace(phone)){
+            return "";
+        }else {
+            return phone.substring(0,3)+ "****"+subPhone(phone);
+        }
+    }
+
+    public static Address getAddress(double latitude, double longitude) {
+        List<Address> addressList = null;
+        Geocoder geocoder = new Geocoder(Utils.getContext());
+        try {
+            addressList = geocoder.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (addressList != null && addressList.size() > 0) {
+            return addressList.get(0);
+        }else {
+            return null;
+        }
+    }
+
 }

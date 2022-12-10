@@ -49,6 +49,8 @@ public class TimeUtils {
     public static final String YMD_PATTERN = "yyyy年MM月dd日";
     public static final String YMD_PATTERN_HHmmss = "yyyy年MM月dd日 HH时mm分ss秒";
 
+    public static final SimpleDateFormat f_12_format = new SimpleDateFormat("MM月dd日 a HH:mm");
+
     public static final String YMD_PATTERN2 = "yyyy.MM.dd";
     public static final String YMD_PATTERN3 = "yyyy-MM-dd";
     public static final String YMD_PATTERN4 = "yyyy/MM/dd";
@@ -79,12 +81,21 @@ public class TimeUtils {
     }
 
     public static Date longToDate(long currentTime) throws ParseException {
-        return longToDate(currentTime,"yyyy-MM-dd HH:mm:ss");
+        if (String.valueOf(currentTime).length() == 13){
+            return longToDate(currentTime,"yyyy-MM-dd HH:mm:ss");
+        }else {
+            return longToDate(currentTime*1000L,"yyyy-MM-dd HH:mm:ss");
+        }
     }
 
     public static Date longToDate(long currentTime, String formatType)
             throws ParseException {
-        Date dateOld = new Date(currentTime); // 根据long类型的毫秒数生命一个date类型的时间
+        Date dateOld; // 根据long类型的毫秒数生命一个date类型的时间
+        if (String.valueOf(currentTime).length() == 13) {
+            dateOld = new Date(currentTime);
+        } else {
+            dateOld = new Date(currentTime*1000L);
+        }
         String sDateTime = dateToString(dateOld, formatType); // 把date类型的时间转换为string
         Date date = stringToDate(sDateTime, formatType); // 把String类型转换为Date类型
         return date;
@@ -111,7 +122,12 @@ public class TimeUtils {
 
     public static String longToString(long currentTime, String formatType)
             throws ParseException {
-        Date date = longToDate(currentTime, formatType); // long类型转成Date类型
+        Date date; // long类型转成Date类型
+        if (String.valueOf(currentTime).length() == 13) {
+            date = longToDate(currentTime, formatType);
+        } else {
+            date = longToDate(currentTime*1000L, formatType);
+        }
         String strTime = dateToString(date, formatType); // date类型转成String
         return strTime;
     }
@@ -145,23 +161,59 @@ public class TimeUtils {
     }
 
     public static String ss_long_2_str(long timestamp) {
-        return ss_format.format(new Date(timestamp));
+        if (String.valueOf(timestamp).length() == 13) {
+            return ss_format.format(new Date(timestamp));
+        } else {
+            return ss_format.format(new Date(timestamp*1000L));
+        }
+    }
+
+    public static String f_str_2_12str(long timestamp, SimpleDateFormat f_format) {
+        if (String.valueOf(timestamp).length() == 13){
+            return f_format.format(new Date(timestamp));
+        }else {
+            return f_format.format(new Date(timestamp*1000L));
+        }
+    }
+
+    public static String ss_long_2_12str(long timestamp) {
+        if (String.valueOf(timestamp).length() == 13){
+            return f_12_format.format(new Date(timestamp));
+        }else {
+            return f_12_format.format(new Date(timestamp*1000L));
+        }
     }
 
     public static String f_long_2_str(String timestamp) {
-        return f_format.format(new Date(Long.parseLong(timestamp)*1000));
+        if (String.valueOf(timestamp).length() == 13) {
+            return f_format.format(new Date(Long.parseLong(timestamp)));
+        } else {
+            return f_format.format(new Date(Long.parseLong(timestamp)*1000L));
+        }
     }
 
     public static String s_long_2_str(long timestamp) {
-        return s_format.format(new Date(timestamp));
+        if (String.valueOf(timestamp).length() == 13) {
+            return s_format.format(new Date(timestamp));
+        } else {
+            return s_format.format(new Date(timestamp*1000L));
+        }
     }
 
     public static String f_long_2_str(long timestamp) {
-        return f_format.format(new Date(timestamp));
+        if (String.valueOf(timestamp).length() == 13) {
+            return f_format.format(new Date(timestamp));
+        } else {
+            return f_format.format(new Date(timestamp*1000L));
+        }
     }
 
     public static String f_long_2_str(long timestamp, SimpleDateFormat f_format) {
-        return f_format.format(new Date(timestamp));
+        if (String.valueOf(timestamp).length() == 13) {
+            return f_format.format(new Date(timestamp));
+        } else {
+            return f_format.format(new Date(timestamp*1000L));
+        }
     }
 
     /**
@@ -349,7 +401,11 @@ public class TimeUtils {
 
     public static String getTimeMMdd(long time) {
         SimpleDateFormat formater = new SimpleDateFormat("MM-dd");
-        return formater.format(time * 1000);
+        if (String.valueOf(time).length() == 13) {
+            return formater.format(time);
+        } else {
+            return formater.format(time * 1000L);
+        }
 
     }
 
@@ -357,24 +413,40 @@ public class TimeUtils {
     public static SimpleDateFormat friendly_format2 = new SimpleDateFormat("MM-dd HH:mm");
 
     public static String sk_time_friendly_format2(long time) {
-        return friendly_format2.format(new Date(time * 1000));
+        if (String.valueOf(time).length() == 13) {
+            return friendly_format2.format(new Date(time));
+        } else {
+            return friendly_format2.format(new Date(time * 1000L));
+        }
     }
 
     public static String sk_time_s_long_2_str(long time) {
-        return s_long_2_str(time * 1000);
+        if (String.valueOf(time).length() == 13) {
+            return s_long_2_str(time);
+        } else {
+            return s_long_2_str(time * 1000L);
+        }
     }
 
 
     public static String sk_time_ss_long_2_str(long time) {
-        return ss_long_2_str(time * 1000);
+        if (String.valueOf(time).length() == 13) {
+            return ss_long_2_str(time);
+        } else {
+            return ss_long_2_str(time * 1000L);
+        }
     }
 
     public static long sk_time_s_str_2_long(String dateString) {
-        return s_str_2_long(dateString) / 1000;
+        if (String.valueOf(dateString).length() == 13) {
+            return s_str_2_long(dateString);
+        } else {
+            return s_str_2_long(String.valueOf(StringUtils.parseLong(dateString)*1000L));
+        }
     }
 
     public static long sk_time_current_time() {
-        return System.currentTimeMillis() / 1000;
+        return System.currentTimeMillis();
     }
 
     private static SimpleDateFormat hm_formater = new SimpleDateFormat("HH:mm");
@@ -384,7 +456,11 @@ public class TimeUtils {
 
     public static String sk_time_long_to_hm_str(long time) {
         try {
-            return hm_formater.format(new Date(time * 1000));
+            if (String.valueOf(time).length() == 13) {
+                return hm_formater.format(new Date(time));
+            } else {
+                return hm_formater.format(new Date(time * 1000L));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -393,7 +469,11 @@ public class TimeUtils {
 
     public static String sk_time_long_to_hm_str12(long time) {
         try {
-            return hm_formater12.format(new Date(time * 1000));
+            if (String.valueOf(time).length() == 13) {
+                return hm_formater12.format(new Date(time));
+            } else {
+                return hm_formater12.format(new Date(time * 1000L));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -442,14 +522,22 @@ public class TimeUtils {
 
     // 日期加小时的字符串
     public static String long_to_yMdHm_str(long time) {
-        return sk_format_1.format(new Date(time));
+        if (String.valueOf(time).length() == 13) {
+            return sk_format_1.format(new Date(time));
+        } else {
+            return sk_format_1.format(new Date(time*1000L));
+        }
     }
 
 
 
     // 日期加小时的字符串
     public static String long_to_yMdHm_st12r(long time) {
-        return sk_format_12.format(new Date(time));
+        if (String.valueOf(time).length() == 13) {
+            return sk_format_12.format(new Date(time));
+        } else {
+            return sk_format_12.format(new Date(time*1000L));
+        }
     }
 
 
@@ -708,7 +796,7 @@ public class TimeUtils {
      * */
     @SuppressLint("SimpleDateFormat")
     public static int getUpMonthLastDay(){
-        String currentTime = com.ved.framework.utils.TimeUtils.f_long_2_str(System.currentTimeMillis(),
+        String currentTime = TimeUtils.f_long_2_str(System.currentTimeMillis(),
                 new SimpleDateFormat("yyyy-MM"));
         int year = StringUtils.parseInt(currentTime.split("-")[0]);
         String month = currentTime.split("-")[1];
