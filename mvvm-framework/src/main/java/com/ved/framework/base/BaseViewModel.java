@@ -153,6 +153,12 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         uc.requestPermissionEvent.postValue(params);
     }
 
+    public void callPhone(String phoneNumber){
+        Map<String, Object> params = new HashMap<>();
+        params.put(Constant.PHONE_NUMBER,phoneNumber);
+        uc.requestCallPhoneEvent.postValue(params);
+    }
+
     /**
      * 关闭界面
      */
@@ -229,6 +235,11 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         private SingleLiveEvent<Void> finishEvent;
         private SingleLiveEvent<Void> onBackPressedEvent;
         private SingleLiveEvent<Map<String, Object>> requestPermissionEvent;
+        private SingleLiveEvent<Map<String, Object>> requestCallPhoneEvent;
+
+        public SingleLiveEvent<Map<String, Object>> getRequestCallPhoneEvent() {
+            return requestCallPhoneEvent = createLiveData(requestCallPhoneEvent);
+        }
 
         public SingleLiveEvent<Map<String, Object>> getRequestPermissionEvent() {
             return requestPermissionEvent = createLiveData(requestPermissionEvent);

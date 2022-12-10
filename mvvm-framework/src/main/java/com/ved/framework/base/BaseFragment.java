@@ -1,6 +1,8 @@
 package com.ved.framework.base;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,9 @@ import com.ved.framework.permission.RxPermission;
 import com.ved.framework.utils.Constant;
 import com.mumu.dialog.MMLoading;
 import com.trello.rxlifecycle4.components.support.RxFragment;
+import com.ved.framework.utils.KLog;
+import com.ved.framework.utils.ToastUtils;
+import com.ved.framework.utils.phone.PhoneUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -123,6 +128,10 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             String[] permissions = (String[]) params.get(Constant.PERMISSION_NAME);
             requestPermission(iPermission,permissions);
         });
+        viewModel.getUC().getRequestCallPhoneEvent().observe(this, (Observer<Map<String, Object>>) params -> {
+            String phoneNumber = (String) params.get(Constant.PHONE_NUMBER);
+            callPhone(phoneNumber);
+        });
         //跳入新页面
         viewModel.getUC().getStartActivityEvent().observe(this, (Observer<Map<String, Object>>) params -> {
             Class<?> clz = (Class<?>) params.get(ParameterField.CLASS);
@@ -154,6 +163,46 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public void showDialog(String title){
         showDialog(title,true);
     }
+
+    public void callPhone(String phoneNumber){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            requestPermission(new IPermission() {
+                @Override
+                public void onGranted() {
+                    PhoneUtils.callPhone(phoneNumber);
+                }
+
+                @Override
+                public void onDenied(boolean denied) {
+                    KLog.e("lixiong","直接拨打电话权限 denied : "+denied);
+                    if (denied){
+                        requestCallPhone();
+                    }else {
+                        ToastUtils.showLong("请同意权限申请，以免影响正常使用");
+                    }
+                }
+            }, Manifest.permission.READ_PHONE_STATE,Manifest.permission.CALL_PHONE);
+        }else{
+            requestPermission(new IPermission() {
+                @Override
+                public void onGranted() {
+                    PhoneUtils.callPhone(phoneNumber);
+                }
+
+                @Override
+                public void onDenied(boolean denied) {
+                    KLog.e("lixiong","直接拨打电话权限 denied : "+denied);
+                    if (denied){
+                        requestCallPhone();
+                    }else {
+                        ToastUtils.showLong("请同意权限申请，以免影响正常使用");
+                    }
+                }
+            },Manifest.permission.READ_PHONE_STATE,Manifest.permission.CALL_PHONE);
+        }
+    }
+
+    public void requestCallPhone(){}
 
     public void showDialog(String title,boolean isShowMessage) {
         if (mmLoading == null) {
