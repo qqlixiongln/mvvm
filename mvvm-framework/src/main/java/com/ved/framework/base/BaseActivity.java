@@ -10,6 +10,8 @@ import android.view.WindowManager;
 
 import com.blankj.swipepanel.SwipePanel;
 import com.gyf.immersionbar.ImmersionBar;
+import com.mumu.dialog.MMLoading;
+import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 import com.ved.framework.BR;
 import com.ved.framework.R;
 import com.ved.framework.bus.Messenger;
@@ -20,10 +22,7 @@ import com.ved.framework.permission.IPermission;
 import com.ved.framework.permission.RxPermission;
 import com.ved.framework.utils.Constant;
 import com.ved.framework.utils.DpiUtils;
-import com.ved.framework.utils.KLog;
 import com.ved.framework.utils.SoftKeyboardUtil;
-import com.mumu.dialog.MMLoading;
-import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 import com.ved.framework.utils.ToastUtils;
 import com.ved.framework.utils.phone.PhoneUtils;
 
@@ -34,7 +33,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
@@ -275,7 +273,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
                 @Override
                 public void onDenied(boolean denied) {
-                    KLog.e("lixiong","直接拨打电话权限 denied : "+denied);
                     if (denied){
                         requestCallPhone();
                     }else {
@@ -292,7 +289,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
                 @Override
                 public void onDenied(boolean denied) {
-                    KLog.e("lixiong","直接拨打电话权限 denied : "+denied);
                     if (denied){
                         requestCallPhone();
                     }else {

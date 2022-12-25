@@ -8,15 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mumu.dialog.MMLoading;
+import com.trello.rxlifecycle4.components.support.RxFragment;
 import com.ved.framework.BR;
 import com.ved.framework.bus.Messenger;
 import com.ved.framework.entity.ParameterField;
 import com.ved.framework.permission.IPermission;
 import com.ved.framework.permission.RxPermission;
 import com.ved.framework.utils.Constant;
-import com.mumu.dialog.MMLoading;
-import com.trello.rxlifecycle4.components.support.RxFragment;
-import com.ved.framework.utils.KLog;
 import com.ved.framework.utils.ToastUtils;
 import com.ved.framework.utils.phone.PhoneUtils;
 
@@ -174,7 +173,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
 
                 @Override
                 public void onDenied(boolean denied) {
-                    KLog.e("lixiong","直接拨打电话权限 denied : "+denied);
                     if (denied){
                         requestCallPhone();
                     }else {
@@ -191,7 +189,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
 
                 @Override
                 public void onDenied(boolean denied) {
-                    KLog.e("lixiong","直接拨打电话权限 denied : "+denied);
                     if (denied){
                         requestCallPhone();
                     }else {
