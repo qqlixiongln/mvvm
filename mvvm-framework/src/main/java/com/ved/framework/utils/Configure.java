@@ -9,15 +9,17 @@ public class Configure {
     private static int authNumber;
     private static int form;
     private static int to;
+    private static long timeout;
 
     private Configure() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
-    public static void setUrl(String url,String imageHeard,int code){
+    public static void setUrl(String url,String imageHeard,int code,long timeout){
         Configure.url = url;
         Configure.imageHeard = imageHeard;
         Configure.code = code;
+        Configure.timeout = timeout;
     }
 
     public static void setAuth(int auth,int form,int to){
@@ -54,5 +56,9 @@ public class Configure {
 
     public static int getCode() {
         return code;
+    }
+
+    public static long getTimeOut() {
+        return timeout;
     }
 }

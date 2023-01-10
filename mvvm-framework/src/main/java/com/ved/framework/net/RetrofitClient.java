@@ -34,7 +34,7 @@ class RetrofitClient {
 
     private RetrofitClient(Map<String, String> headers) {
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
-        retrofit = (new Retrofit.Builder()).client((new OkHttpClient.Builder()).cookieJar(new CookieJarImpl(new PersistentCookieStore(Utils.getContext()))).addInterceptor(new MyInterceptor(headers)).addInterceptor(new CacheInterceptor(Utils.getContext())).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager).connectTimeout(20L, TimeUnit.SECONDS).writeTimeout(20L, TimeUnit.SECONDS).connectionPool(new ConnectionPool(8, 15L, TimeUnit.SECONDS)).proxy(Proxy.NO_PROXY).build()).addConverterFactory(GsonDConverterFactory.create(MyGson.getInstance().getGson())).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).baseUrl(Configure.getUrl()).build();
+        retrofit = (new Retrofit.Builder()).client((new OkHttpClient.Builder()).cookieJar(new CookieJarImpl(new PersistentCookieStore(Utils.getContext()))).addInterceptor(new MyInterceptor(headers)).addInterceptor(new CacheInterceptor(Utils.getContext())).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager).connectTimeout(Configure.getTimeOut(), TimeUnit.SECONDS).writeTimeout(Configure.getTimeOut(), TimeUnit.SECONDS).connectionPool(new ConnectionPool(8, 15L, TimeUnit.SECONDS)).proxy(Proxy.NO_PROXY).build()).addConverterFactory(GsonDConverterFactory.create(MyGson.getInstance().getGson())).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).baseUrl(Configure.getUrl()).build();
     }
 
     public <T> T create(Class<T> service) {
